@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYMHUB | BE THE LEGEND OF YOUR GYM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&family=Antonio:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-yellow: #EEFF00;
+            --glow-yellow: rgba(238, 255, 0, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: 'Oswald', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-yellow);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.active {
+            transform: scale(1.5);
+            background: var(--neon-yellow);
+        }
+
+        .headline-raw {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 400;
+            font-style: italic;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: 0.02em;
+        }
+
+        .text-neon {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 20px var(--glow-yellow), 0 0 40px var(--glow-yellow);
+        }
+
+        .bg-neon {
+            background-color: var(--neon-yellow);
+            box-shadow: 0 0 40px var(--glow-yellow);
+        }
+
+        .border-neon {
+            border: 2px solid var(--neon-yellow);
+            box-shadow: 0 0 20px var(--glow-yellow);
+        }
+
+        /* Enhanced Button */
+        .btn-store {
+            background-color: var(--neon-yellow);
+            color: #000;
+            font-weight: 800;
+            font-style: italic;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px var(--glow-yellow);
+        }
+
+        .btn-store::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-store:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-store:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 0 50px var(--neon-yellow), 0 10px 30px rgba(238, 255, 0, 0.3);
+        }
+
+        .btn-store > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Cards with 3D */
+        .card-raw {
+            background: linear-gradient(135deg, #111 0%, #000 100%);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px) rotateX(10deg);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-raw::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--glow-yellow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card-raw:hover::before {
+            opacity: 0.1;
+        }
+
+        .card-raw.reveal {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .card-raw:hover {
+            border-color: var(--neon-yellow);
+            transform: translateY(-10px) scale(1.02) rotateX(-2deg) !important;
+            box-shadow: 0 20px 60px rgba(238, 255, 0, 0.2);
+        }
+
+        /* Badge */
+        .badge-neon {
+            background: var(--neon-yellow);
+            color: black;
+            padding: 0.5rem 1rem;
+            font-weight: 800;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            box-shadow: 0 0 20px var(--glow-yellow);
+            animation: pulse-glow 2s infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-yellow); }
+            50% { box-shadow: 0 0 40px var(--neon-yellow); }
+        }
+
+        section {
+            padding: 140px 0;
+            position: relative;
+        }
+
+        .logo-yellow {
+            color: var(--neon-yellow);
+            font-family: 'Antonio', sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            text-shadow: 0 0 20px var(--glow-yellow);
+        }
+
+        /* Animated Background Text */
+        .bg-text {
+            position: absolute;
+            font-size: 15vw;
+            font-weight: 900;
+            font-style: italic;
+            color: rgba(238, 255, 0, 0.03);
+            white-space: nowrap;
+            z-index: -1;
+            pointer-events: none;
+            text-transform: uppercase;
+            font-family: 'Bebas Neue', sans-serif;
+            animation: float-text 30s linear infinite;
+        }
+
+        @keyframes float-text {
+            0% { transform: translateX(-5%); }
+            100% { transform: translateX(5%); }
+        }
+
+        /* Reveal Animations */
+        .reveal-text {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateX(-30px);
+            transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .reveal-text.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateX(0);
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll Progress */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-yellow), #fff);
+            z-index: 100;
+            box-shadow: 0 0 20px var(--neon-yellow);
+        }
+
+        /* Parallax Hero */
+        .hero-parallax {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1) brightness(0.3);
+            transform-origin: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.8) 70%, #000 100%);
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-anim 3s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0%, 90%, 100% { transform: translate(0); }
+            91% { transform: translate(-2px, 2px); }
+            92% { transform: translate(2px, -2px); }
+            93% { transform: translate(-2px, -2px); }
+            94% { transform: translate(2px, 2px); }
+        }
+
+        /* Floating Elements */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Grid Background */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(238, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(238, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* Tilt Card Effect */
+        .tilt-card {
+            transition: transform 0.3s ease;
+        }
+
+        /* Interactive Icons */
+        .icon-interactive {
+            transition: all 0.3s ease;
+        }
+
+        .icon-interactive:hover {
+            transform: rotate(360deg) scale(1.2);
+            filter: drop-shadow(0 0 10px var(--neon-yellow));
+        }
+
+        /* Neon Lines */
+        .neon-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-yellow), transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Progress Bar Animation */
+        .progress-bar {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            .headline-raw {
+                font-size: clamp(2rem, 8vw, 4rem);
+            }
+        }
+
+        /* Magnetic Button Effect */
+        .magnetic {
+            transition: transform 0.2s ease;
+        }
+
+        /* Noise Texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/95 backdrop-blur-md border-b border-white/10 px-6 py-4 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="logo-yellow text-3xl">
+                GYMHUB
+            </div>
+            <div class="hidden md:flex gap-8 headline-raw text-sm tracking-widest">
+                <a href="#social" class="hover:text-neon transition-all duration-300 relative group">
+                    Squads
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-neon group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#competition" class="hover:text-neon transition-all duration-300 relative group">
+                    Rankings
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-neon group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#gamification" class="hover:text-neon transition-all duration-300 relative group">
+                    Level Up
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-neon group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="text-neon icon-interactive">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.337 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.337-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.337-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="#" class="text-neon icon-interactive">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Parallax -->
+    <header class="hero-parallax grid-bg">
+        <div class="hero-bg-layer" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center px-6">
+            <span class="badge-neon mb-8 inline-block tracking-widest reveal-up active float">Connect • Compete • Level Up</span>
+            <h1 class="headline-raw text-7xl md:text-8xl lg:text-9xl mb-8 leading-[0.85] reveal-up active glitch" style="transition-delay: 0.1s">
+                MAKE YOUR GYM A <br> <span class="text-neon">MULTIPLAYER GAME</span>
+            </h1>
+            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-medium reveal-up active" style="transition-delay: 0.2s">
+                Stop playing singleplayer. Unlock the social potential of your gym: Find your squad, battle for local rankings, and earn XP for every workout.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-6 reveal-up active" style="transition-delay: 0.3s">
+                <a href="#" class="btn-store magnetic">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+                    <span>iOS</span>
+                </a>
+                <a href="#" class="btn-store magnetic">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+                    <span>Android</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 01: Social -->
+    <section id="social" class="relative overflow-hidden">
+        <div class="bg-text top-0 left-[-5%]">CO-OP</div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="card-raw border-neon tilt-card">
+                            <span class="badge-neon mb-4">LIVE</span>
+                            <h4 class="headline-raw text-xl mb-2">Live Lobby</h4>
+                            <p class="text-sm text-gray-500">See who is online in your gym right now.</p>
+                        </div>
+                        <div class="card-raw sm:mt-8 tilt-card">
+                            <h4 class="headline-raw text-xl mb-2">Gym Feed</h4>
+                            <p class="text-sm text-gray-500">The pulse of your gym floor. Real lifts, real people, zero fake content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <h2 class="headline-raw text-6xl md:text-8xl mb-8 reveal-text">FIND YOUR <br><span class="text-neon">SQUAD</span></h2>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed reveal-text">
+                        Don't grind alone. Build your local alliance. Share PRs, find spotters, and push each other to the next level within your gym.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 02: Competition -->
+    <section id="competition" class="bg-zinc-950 relative overflow-hidden">
+        <div class="bg-text bottom-0 right-[-5%]">PVP</div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="headline-raw text-6xl md:text-8xl mb-4 reveal-up">CLIMB THE <br><span class="text-neon">LEADERBOARD</span></h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-raw tilt-card">
+                    <h3 class="headline-raw text-3xl mb-4">Monthly Quests</h3>
+                    <p class="text-gray-500 italic mb-6">Fresh challenges every month. Prove your consistency and dominate the gym stats.</p>
+                    <div class="pt-4 border-t border-white/10 flex justify-between items-center text-neon headline-raw">
+                        <span>Active</span>
+                        <span class="text-white">12 Challenges</span>
+                    </div>
+                </div>
+                <div class="card-raw border-neon md:scale-105 bg-black z-10 tilt-card" style="transform-origin: center;">
+                    <h3 class="headline-raw text-3xl mb-4 text-neon">Local Ranking</h3>
+                    <p class="text-gray-400 italic mb-6">Your sweat vs. theirs. Check the live standings and fight for the top spot in your gym.</p>
+                    <div class="pt-4 border-t border-neon/30 flex justify-between items-center text-neon headline-raw">
+                        <span>Current #1</span>
+                        <span class="text-white">Leon B.</span>
+                    </div>
+                </div>
+                <div class="card-raw tilt-card">
+                    <h3 class="headline-raw text-3xl mb-4">Gym Battles</h3>
+                    <p class="text-gray-500 italic mb-6">Unite with your members. Your collective score decides which gym rules the city.</p>
+                    <div class="pt-4 border-t border-white/10 flex justify-between items-center text-neon headline-raw">
+                        <span>Gym vs. Gym</span>
+                        <span class="text-white">Represent Your Turf</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 03: Gamification -->
+    <section id="gamification" class="relative overflow-hidden">
+        <div class="bg-text top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02]">XP</div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div>
+                    <h2 class="headline-raw text-6xl md:text-8xl mb-8 reveal-text">EARN YOUR <br><span class="text-neon">STATUS</span></h2>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed reveal-text">
+                        Every rep earns XP. Complete daily quests and evolve your profile from "Newbie" to "Local Legend". Your sweat is now your currency.
+                    </p>
+                    <div class="flex gap-4 reveal-up">
+                        <div class="h-1 w-20 bg-neon"></div>
+                        <div class="h-1 w-20 bg-zinc-800"></div>
+                        <div class="h-1 w-20 bg-zinc-800"></div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="card-raw flex gap-6 items-center group tilt-card">
+                        <div class="text-neon icon-interactive">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="headline-raw text-xl">Elite Badges</h4>
+                            <p class="text-sm text-gray-500">Unlock unique rewards for consistency, streaks, and heavy lifts. Show off your achievements.</p>
+                        </div>
+                    </div>
+                    <div class="card-raw flex gap-6 items-center border-neon bg-zinc-900/30 tilt-card">
+                        <div class="text-neon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <div class="w-full">
+                            <div class="flex justify-between mb-2 italic font-black text-xs uppercase">
+                                <span>XP Progress</span>
+                                <span class="text-neon">82% to Level 45</span>
+                            </div>
+                            <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden progress-bar">
+                                <div class="bg-neon h-full w-[82%] transition-all duration-1000"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative py-32 px-6 text-center bg-neon overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="neon-line absolute top-1/4 w-full"></div>
+            <div class="neon-line absolute top-2/4 w-full"></div>
+            <div class="neon-line absolute top-3/4 w-full"></div>
+        </div>
+        <div class="max-w-4xl mx-auto text-black relative z-10">
+            <h2 class="headline-raw text-6xl md:text-8xl mb-8 leading-[0.8] reveal-up font-black"><br>READY TO JOIN THE LOBBY?</h2>
+            <p class="text-xl mb-12 font-bold italic uppercase reveal-up" style="transition-delay: 0.1s">Download now and start your legacy.</p>
+            <div class="flex flex-wrap justify-center gap-6 reveal-up" style="transition-delay: 0.2s">
+                <a href="#" class="bg-black text-neon font-black italic uppercase px-10 py-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition shadow-2xl magnetic">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+                    <span>App Store</span>
+                </a>
+                <a href="#" class="bg-black text-neon font-black italic uppercase px-10 py-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition shadow-2xl magnetic">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+                    <span>Google Play</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/10 py-16 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div>
+                <div class="logo-yellow text-4xl mb-2">GYMHUB</div>
+                <p class="text-gray-600 text-xs font-black uppercase italic tracking-widest">MAKE YOUR GYM A MULTIPLAYER GAME</p>
+            </div>
+            <div class="text-gray-600 text-[10px] uppercase font-black tracking-widest">
+                &copy; 2024 GYMHUB GLOBAL. NO EXCUSES ALLOWED.
+            </div>
+            <div class="flex gap-8 headline-raw text-xs">
+                <a href="#" class="text-gray-500 hover:text-neon transition">Imprint</a>
+                <a href="#" class="text-gray-500 hover:text-neon transition">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            
+            cursorX += dx * 0.15;
+            cursorY += dy * 0.15;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        });
+
+        // Intersection Observer for Reveal Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                        entry.target.classList.add('reveal');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-text, .reveal-up, .card-raw').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Parallax Hero Background
+        const heroBg = document.getElementById('heroBg');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            if (scrolled < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrolled * 0.5}px) scale(${1 + scrolled * 0.0003})`;
+            }
+        });
+
+        // Parallax Background Text
+        document.querySelectorAll('.bg-text').forEach(el => {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const rect = el.getBoundingClientRect();
+                const elementTop = rect.top + scrolled;
+                const diff = scrolled - elementTop;
+                el.style.transform = `translateY(${diff * 0.1}px)`;
+            });
+        });
+
+        // Tilt Effect for Cards
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // Magnetic Effect for Buttons
+        document.querySelectorAll('.magnetic').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0) scale(1)';
+            });
+        });
+
+        // Navbar on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.style.padding = '0.75rem 1.5rem';
+                navbar.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                navbar.style.padding = '1rem 1.5rem';
+                navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
+        });
+
+        // Progress Bar Animation on Scroll
+        const progressBar = document.querySelector('.progress-bar .bg-neon');
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    progressBar.style.width = '82%';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (progressBar) {
+            progressBar.style.width = '0%';
+            progressObserver.observe(progressBar.parentElement);
+        }
+
+        // Glitch Effect Random Trigger
+        setInterval(() => {
+            const glitchEl = document.querySelector('.glitch');
+            if (glitchEl && Math.random() > 0.95) {
+                glitchEl.style.animation = 'none';
+                setTimeout(() => {
+                    glitchEl.style.animation = 'glitch-anim 3s infinite';
+                }, 10);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
