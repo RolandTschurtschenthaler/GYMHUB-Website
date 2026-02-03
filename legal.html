@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GYMHUB | LEGAL</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--neon-yellow: #EEFF00;
+--glow-yellow: rgba(238, 255, 0, 0.5);
+}
+body {
+background-color: #000000;
+color: #FFFFFF;
+font-family: 'Oswald', sans-serif;
+line-height: 1.6;
+cursor: crosshair;
+}
+.custom-cursor {
+width: 20px; height: 20px; border: 2px solid var(--neon-yellow);
+border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+transition: transform 0.2s ease; mix-blend-mode: difference;
+}
+.headline-raw {
+font-family: 'Bebas Neue', sans-serif;
+font-style: italic;
+text-transform: uppercase;
+letter-spacing: 0.02em;
+}
+.text-neon { color: var(--neon-yellow); text-shadow: 0 0 20px var(--glow-yellow); }
+.section-title { font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+.sub-title { color: var(--neon-yellow); font-weight: bold; margin-top: 2rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+a { transition: all 0.3s ease; }
+a:hover { color: var(--neon-yellow); text-shadow: 0 0 10px var(--glow-yellow); }
+</style>
+</head>
+<body class="p-8 md:p-24 bg-black">
+<div class="custom-cursor" id="cursor"></div>
+<div class="max-w-4xl mx-auto">
+<header class="mb-16">
+<a href="index.html" class="headline-raw text-xl text-neon hover:underline tracking-widest"><- BACK TO LOBBY</a>
+<h1 class="headline-raw text-7xl md:text-8xl mt-8 leading-none">LEGAL <span class="text-neon">STUFF</span></h1>
+</header>
+
+<!-- IMPRESSUM (IMPRINT) -->
+<section class="mb-24">
+<h2 class="headline-raw section-title">Imprint</h2>
+<div class="text-gray-400 space-y-2">
+<p class="text-white font-bold text-xl uppercase italic">Data Controller</p>
+<p>Roland Tschurtschenthaler</p>
+<p>Lanerweg 12</p>
+<p>39030 Sexten (BZ), Italy</p>
+<p class="mt-4 text-neon">Email: gymhublabs@gmail.com</p>
+<p class="text-xs mt-8 opacity-50">Responsible for content according to § 55 Abs. 2 RStV: Roland Tschurtschenthaler</p>
+</div>
+</section>
+
+<!-- PRIVACY POLICY -->
+<section class="mb-24">
+<h2 class="headline-raw section-title">Privacy Policy</h2>
+<p class="text-gray-500 italic mb-8 uppercase text-sm tracking-widest">Last Updated: January 10, 2026</p>
+
+<div class="text-gray-400 space-y-6">
+<p>The protection of your personal data is a top priority for us. This Privacy Policy informs you about how the "GymHub" app (hereinafter referred to as the "App") collects, uses, and protects your information.</p>
+
+<div>
+<h3 class="sub-title">1. Data Controller</h3>
+<p>The entity responsible for processing data within the meaning of the GDPR is: Roland Tschurtschenthaler, Lanerweg 12, 39030 Sexten (BZ). Email: rolandtschurtschenthaler@gmail.com</p>
+</div>
+
+<div>
+<h3 class="sub-title">2. Types of Data Collected</h3>
+<ul class="list-disc list-inside space-y-2 ml-4">
+<li><span class="text-white">Account Information:</span> Email address and password (encrypted via Supabase Auth).</li>
+<li><span class="text-white">Profile Data:</span> Username, display name, avatar, and preferences.</li>
+<li><span class="text-white">Fitness Data:</span> Workouts, sets, reps, weights, and PRs.</li>
+<li><span class="text-white">Community Content:</span> Posts, comments, and reactions in the feed.</li>
+<li><span class="text-white">Transaction Data:</span> In-app purchases (processed via RevenueCat).</li>
+</ul>
+</div>
+
+<div>
+<h3 class="sub-title">3. Permissions and Device Data</h3>
+<p><span class="text-white font-bold">Location (GPS):</span> We use your location to identify your gym and provide "Geofencing" (automatic workout stop when leaving the gym). Background location access is required for this to work when the screen is locked.</p>
+<p class="mt-2"><span class="text-white font-bold">Camera & Photos:</span> Required for profile pictures and sharing training photos in the community feed.</p>
+<p class="mt-2"><span class="text-white font-bold">Notifications:</span> For workout invitations, feed interactions, and rest timers.</p>
+</div>
+
+<div>
+<h3 class="sub-title">4. Third-Party Services</h3>
+<p>We use <span class="text-white">Supabase</span> (Database/Auth), <span class="text-white">RevenueCat</span> (Purchases), <span class="text-white">Spotify API</span> (Gym Radio), and <span class="text-white">Expo</span> (App Updates).</p>
+</div>
+
+<div>
+<h3 class="sub-title">5. Your Rights & Deletion</h3>
+<p>You can delete your account at any time in the App settings. To request manual deletion of all data, email <span class="text-neon">gymhublabs@gmail.com</span> with subject 'Delete my Account'. We process requests within 48 hours.</p>
+</div>
+</div>
+</section>
+
+<footer class="border-t border-zinc-800 pt-8 opacity-30 text-xs uppercase tracking-widest italic font-black">
+© 2026 GYMHUB LABS. NO EXCUSES ALLOWED.
+</footer>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+let mouseX = 0, mouseY = 0;
+let cursorX = 0, cursorY = 0;
+document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+cursorX += (mouseX - cursorX) * 0.15;
+cursorY += (mouseY - cursorY) * 0.15;
+cursor.style.left = cursorX + 'px';
+cursor.style.top = cursorY + 'px';
+requestAnimationFrame(animateCursor);
+}
+animateCursor();
+</script>
+</body>
+</html>
