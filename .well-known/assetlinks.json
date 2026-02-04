@@ -1,1 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.gymhubtrack.mobile",
+      "sha256_cert_fingerprints": [
+        "2D:07:6C:E8:83:F2:12:C5:ED:4D:8D:E4:E7:8C:34:C5:1B:09:66:8C:0D:D7:7B:CB:F0:6F:F9:16:85:65:3C:2B"
+      ]
+    }
+  }
+]
 
