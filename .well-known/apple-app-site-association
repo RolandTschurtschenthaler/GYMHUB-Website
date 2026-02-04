@@ -1,1 +1,10 @@
-
+{
+  "applinks": {
+    "details": [
+      {
+        "appID": "6758337427.com.gymhubtrack.mobile",
+        "paths": ["/join/*"]
+      }
+    ]
+  }
+}
