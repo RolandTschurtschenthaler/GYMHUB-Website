@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GymHub Invite</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Extract ID from URL (gymhub.pages.dev/join/XYZ)
+        const pathParts = window.location.pathname.split('/');
+        const gymId = pathParts[pathParts.length - 1];
+        
+        // Custom Scheme Fallback
+        const appSchemeUrl = "gymhub://join/" + gymId;
+        
+        // App Store URLs (Replace with your actual Store IDs)
+        const iosStoreUrl = "https://apps.apple.com/app/id6758337427"; 
+        const androidStoreUrl = "https://play.google.com/store/apps/details?id=com.gymhubtrack.mobile";
+
+        function redirect() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+
+            // Try to open the app via scheme
+            window.location.href = appSchemeUrl;
+
+            // If the app doesn't open within 2 seconds, go to the store
+            setTimeout(function() {
+                if (isIOS) {
+                    window.location.href = iosStoreUrl;
+                } else if (isAndroid) {
+                    window.location.href = androidStoreUrl;
+                } else {
+                    // Desktop fallback
+                    window.location.href = "/";
+                }
+            }, 2000);
+        }
+        
+        window.onload = redirect;
+    </script>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        .loader { border: 4px solid #333; border-top: 4px solid #EEFF00; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="loader" style="margin: 0 auto 20px;"></div>
+        <h1>GymHub wird geöffnet...</h1>
+        <p>Falls du die App noch nicht hast, wirst du zum Store weitergeleitet.</p>
+    </div>
+</body>
+</html>
