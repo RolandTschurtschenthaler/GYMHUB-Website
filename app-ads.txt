@@ -1,4 +1,5 @@
 google.com, pub-4537167398154423, DIRECT, f08c47fec0942fa0
+facebook.com, 865078318860503, DIRECT, c3bd742039d93385
 
 taurusx.com, 70097, RESELLER
 smartadserver.com, 4525, RESELLER, 060d053dcf45cbf3
